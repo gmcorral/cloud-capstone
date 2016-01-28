@@ -3,8 +3,8 @@
 ################
 
 # airline-ontime
-# Year - Month - DayofMonth - UniqueCarrier - Origin - Dest - DepDelay - ArrDelay - Cancelled
-CREATE EXTERNAL TABLE airline_ontime (year INT, month INT, day INT, weekday INT, carrier STRING, origin STRING, dest STRING, depdelay INT, arrdelay INT, cancelled INT)
+# Year - Month - DayofMonth - DayOfWeek - UniqueCarrier - Origin - Dest - CRSDepTime - DepDelay - CRSArrTime - ArrDelay - Cancelled
+CREATE EXTERNAL TABLE airline_ontime (year INT, month INT, day INT, weekday INT, carrier STRING, origin STRING, dest STRING, deptime STRING, depdelay INT, arrtime STRING, arrdelay INT, cancelled INT)
 PARTITIONED BY (date string)
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ","
 LOCATION 's3n://airline-ontime/';
