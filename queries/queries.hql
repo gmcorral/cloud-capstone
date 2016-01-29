@@ -55,13 +55,55 @@ where o.origin = d.dest
 order by popularity desc;
 
 # group 3 ex 2
-select concat(xy.x, "-", xy.y, "-", yz.z) as route, xy.deptime, concat(xy.carrier, xy.flight_num) as flight_xy, concat(yz.carrier, yz.flight_num) as flight_yz, xy.delay + yz.delay as delay
+
+drop table if exists flights_xy;
+create table flights_xy as
+select 
+    origin as x,
+    dest as y,
+    flight_num,
+    date,
+    deptime,
+    arrdelay + depdelay as delay,
+    carrier
+from airline_ontime
+where cancelled = 0 and deptime < "1200" and date like '2008-%';
+
+drop table if exists flights_yz;
+create table flights_yz as
+select
+    origin as y,
+    dest as z,
+    flight_num,
+    date,
+    deptime,
+    arrdelay + depdelay as delay,
+    carrier
+from airline_ontime
+where cancelled = 0 and deptime > "1200" and date like '2008-%';
+
+#set mapreduce.job.reduces=4;
+
+drop table if exists flights_xyz;
+create table flights_xyz as
+select
+    concat(xy.x, "-", xy.y, "-", yz.z) as route,
+    xy.date as depdate,
+    concat(xy.carrier, xy.flight_num) as flight_xy,
+    concat(yz.carrier, yz.flight_num) as flight_yz,
+    xy.delay + yz.delay as delay
 from
-    (select origin as x, dest as y, flight_num, date, deptime, arrdelay + depdelay as delay, carrier
-    from airline_ontime
-    where cancelled = 0 and deptime < "1200" and year = 2008) as xy,
-    (select origin as y, dest as z, flight_num, date, deptime, arrdelay + depdelay as delay, carrier
-    from airline_ontime
-    where cancelled = 0 and deptime > "1200" and year = 2008) as yz
-where xy.y = yz.y and yz.date = date_add(xy.date, 2)
-order by delay;
+    flights_xy as xy,
+    flights_yz as yz
+where xy.y = yz.y and yz.date = date_add(xy.date, 2);
+
+insert overwrite table group3_ex2
+select xyz.route, xyz.depdate, xyz.flight_xy, xyz.flight_yz from flights_xyz xyz
+inner join (
+    select route, depdate, min(delay) as min_delay
+    from flights_xyz
+    group by route, depdate
+) xyz_min
+on  xyz.route = xyz_min.route and
+    xyz.depdate = xyz_min.depdate
+where xyz.delay = xyz_min.min_delay;
