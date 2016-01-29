@@ -24,8 +24,8 @@ DATE_INDEX = 5
 # 60: "DivActualElapsedTime","DivArrDelay","DivDistance","Div1Airport","Div1WheelsOn","Div1TotalGTime","Div1LongestGTime","Div1WheelsOff","Div1TailNum","Div2Airport",
 # 70: "Div2WheelsOn","Div2TotalGTime","Div2LongestGTime","Div2WheelsOff","Div2TailNum",
 
-# Year - Month - DayofMonth - DayOfWeek - UniqueCarrier - Origin - Dest - CRSDepTime - DepDelay - CRSArrTime - ArrDelay - Cancelled
-IMPORT_FIELDS = [0, 2, 3, 4, 6, 11, 17, 23, 25, 34, 36, 41]
+# Year - Month - DayofMonth - DayOfWeek - UniqueCarrier - FlightNum - Origin - Dest - CRSDepTime - DepDelay - CRSArrTime - ArrDelay - Cancelled
+IMPORT_FIELDS = [0, 2, 3, 4, 6, 10, 11, 17, 23, 25, 34, 36, 41]
 
 # CSV separator and string delimiter
 INPUT_SEP = ','
