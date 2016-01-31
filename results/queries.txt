@@ -1,0 +1,35 @@
+Question 2.1
+
+CMI -> OH, US, PI, TW, EV, DH, MQ
+BWI -> F9, PA(1), NW, CO, YV, AA, US, UA, FL, DL
+MIA -> 9E, EV, XE, TZ, PA(1), NW, US, UA, ML(1), FL
+LAX -> MQ, OO, PS, FL, TZ,  HA, NW, F9, US, YV
+IAH -> PA(1), NW, PI, US, AA, F9, OO, HP, XE, MQ
+SFO -> TZ, MQ, PA(1), NW, F9, PS, DL, US, AA, CO
+
+Question 2.2
+
+CMI -> ABI, PIT, CVG, DAY, STL, PIA, DFW, ATL, ORD
+BWI -> SAV, SRQ, DAB, IAD, MLB, UCA, CHO, DCA, IAH, OAJ
+MIA -> SHV, BUF, SAN, SLC, HOU, ISP, MEM, PSE, GNV, TLH
+LAX -> GRR, AZO, MSP, DTW, DAY, PIT, CVG, CLE, IAD, ATL
+IAH -> MSN, MLI, AGS, EFD, JAC, HOU, MTJ, VCT, RNO, BPT
+SFO -> SDF, MSO, PIH, LGA, PIE, FAR, OAK, BNA, MEM, SCK
+
+Question 2.4
+
+CMI → ORD -> 10 min
+IND → CMH -> 2 min
+DFW → IAH -> 7 min
+LAX → SFO -> 9 min
+JFK → LAX -> 6 min
+ATL → PHX -> 9 min
+
+Question 3.2
+
+CMI → ORD → LAX, 04/03/2008 ->
+JAX → DFW → CRP, 09/09/2008 ->
+SLC → BFL → LAX, 01/04/2008 ->
+LAX → SFO → PHX, 12/07/2008 -> 
+DFW → ORD → DFW, 10/06/2008 ->
+LAX → ORD → JFK, 01/01/2008 -> 
