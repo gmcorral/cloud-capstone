@@ -26,7 +26,7 @@ group by weekday order by mean_delay asc;
 insert overwrite table group2_ex1
 select origin as airport, carrier, sum(depdelay)/count(depdelay) as mean_delay from airline_ontime
 where cancelled = 0
-group by airport, carrier;
+group by origin, carrier;
 
 # Group 2 ex 2
 insert overwrite table group2_ex2
