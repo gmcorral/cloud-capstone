@@ -3,17 +3,18 @@ import boto
 from boto.s3.key import Key
 import signal
 import sys
+import time
 
 # S3 region and bucket name
 AWS_REGION = 'us-east-1'
-S3_BUCKET = 'airline-test'
+S3_BUCKET = 'airline-ontime'
 
 # file name and extension
 FILE_NAME = '001.csv'
 
 # range of years to parse
-YEAR_RANGE = range(2008, 2009)
-MONTH_RANGE = range(1, 2)
+YEAR_RANGE = range(1988, 2009)
+MONTH_RANGE = range(1, 13)
 
 # connection to Spark
 PORT = 9999
@@ -43,13 +44,7 @@ def disconnect():
         sock.close()
 
 def send_file(conn, content):
-
-    #lines = content.split('\n')
-    #for line in lines:
     conn.send(content)
-    #    print('Sent ', line)
-    print('file sent')
-    
     
 def send_day(conn, bucket, day_key):
     
@@ -102,8 +97,12 @@ try:
         
     print('Finished sending files')
     
-    conn.send('\nEND\n')
-    #disconnect()
+    #conn.send('\nEND\n')
+    
+    print('Waiting to disconnect..')
+    
+    time.sleep(600)
+    disconnect()
 
 except Exception as ex:
     print(ex)
