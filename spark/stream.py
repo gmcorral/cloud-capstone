@@ -99,9 +99,9 @@ try:
     
     #conn.send('\nEND\n')
     
-    print('Waiting to disconnect..')
-    
-    time.sleep(600)
+    while(True):
+        print('Waiting to disconnect..')
+        time.sleep(60)
     disconnect()
 
 except Exception as ex:
