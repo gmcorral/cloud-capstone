@@ -52,9 +52,9 @@ signal.signal(signal.SIGINT, signal_handler)
 config = SparkConf()
 config.set('spark.streaming.stopGracefullyOnShutdown', True)
 
-sc = SparkContext(master="local[*]", appName="g1ex1", conf=config)
+sc = SparkContext(appName='g1ex1', conf=config, pyFiles=['flight.py'])
 ssc = StreamingContext(sc, 1)
-ssc.checkpoint("/tmp/g1ex2")
+ssc.checkpoint('/tmp/g1ex2')
 
 lines = ssc.socketTextStream(sys.argv[1], int(sys.argv[2]))
 
