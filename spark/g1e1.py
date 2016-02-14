@@ -1,4 +1,5 @@
 from pyspark import SparkContext
+from pyspark import SparkConf
 from pyspark.streaming import StreamingContext
 
 import sys
@@ -17,14 +18,12 @@ def close():
     print('Shutting down..')
     if (scc is not None):
         try:
-            ssc.stop(False, True)
-            time.sleep(5)
-        except Exception as ignore:
+            ssc.stop(True, True)
+        except:
             pass
 
 def signal_handler(signal, frame):
     close()
-    sys.exit(0)
 
 ######
 ###### Partial results printer #######
@@ -50,9 +49,12 @@ def updateFunction(new_values, last_sum):
 
 signal.signal(signal.SIGINT, signal_handler)
 
-sc = SparkContext("local[*]", "Test")
+config = SparkConf()
+config.set('spark.streaming.stopGracefullyOnShutdown', True)
+
+sc = SparkContext(master="local[*]", appName="g1ex1", conf=config)
 ssc = StreamingContext(sc, 1)
-ssc.checkpoint("/tmp/checkpoint")
+ssc.checkpoint("/tmp/g1ex2")
 
 lines = ssc.socketTextStream(sys.argv[1], int(sys.argv[2]))
 
@@ -63,14 +65,15 @@ filtered = lines.map(lambda line: line.split(","))\
 
 filtered.foreachRDD(lambda rdd: print_rdd(rdd))
 
-# start streming process
+# start streaming process
 ssc.start()
 
 try:
     ssc.awaitTermination()
-except Exception as ex:
-    print("ERROR: " + str(ex))
-finally:
-    print('Shutting down..')
-    ssc.stop(False, True)
-    time.sleep(5)
+except:
+    pass
+
+try:
+    time.sleep(10)
+except:
+    pass
