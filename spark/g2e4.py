@@ -14,7 +14,7 @@ from boto.dynamodb2.items import Item
 
 # DynamoDB region and bucket name
 AWS_REGION = 'us-east-1'
-DB_TABLE = 't2g2ex1'
+DB_TABLE = 't2g2ex4'
 
 scc = None
 
@@ -41,8 +41,8 @@ def save_partition(part):
 
     for record in part:
         item = Item(out_table, data={
-            "airport": record[0][0],
-            "carrier": record[0][1],
+            "origin": record[0][0],
+            "destination": record[0][1],
             "mean_delay": int(record[1][0] / record[1][1])
         })
         item.save(overwrite=True)
@@ -79,16 +79,16 @@ config = SparkConf()
 config.set('spark.streaming.stopGracefullyOnShutdown', True)
 #config.set('spark.yarn.executor.memoryOverhead', '2g')
 
-sc = SparkContext(appName='g2ex1', conf=config, pyFiles=['flight.py'])
+sc = SparkContext(appName='g2ex4', conf=config, pyFiles=['flight.py'])
 ssc = StreamingContext(sc, 1)
-ssc.checkpoint('/tmp/g2ex1')
+ssc.checkpoint('/tmp/g2ex4')
 
 lines = ssc.socketTextStream(sys.argv[1], int(sys.argv[2]))
 
 filtered = lines.map(lambda line: line.split(","))\
                 .map(lambda fields: Flight(fields))\
                 .filter(lambda fl: fl.Cancelled == 0)\
-                .map(lambda fl: ((fl.Origin, fl.UniqueCarrier), (fl.DepDelay, 1)))\
+                .map(lambda fl: ((fl.Origin, fl.Dest), (fl.ArrDelay, 1)))\
                 .updateStateByKey(updateFunction)
 
 filtered.foreachRDD(lambda rdd: rdd.foreachPartition(save_partition))
