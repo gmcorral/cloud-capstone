@@ -63,7 +63,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 config = SparkConf()
 config.set('spark.streaming.stopGracefullyOnShutdown', True)
-config.set('spark.yarn.executor.memoryOverhead', '2g')
+#config.set('spark.yarn.executor.memoryOverhead', '2g')
 
 sc = SparkContext(appName='g1ex3', conf=config, pyFiles=['flight.py'])
 ssc = StreamingContext(sc, 1)
